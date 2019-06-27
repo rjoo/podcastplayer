@@ -22,11 +22,12 @@ export default function PodcastContent({ feed }) {
             <a
               href={ep.link}
               className={styles.episodeTitle}
-              target="_blank">{ep.title}</a>
+              target="_blank"
+              rel="noopener noreferrer">{ep.title}</a>
             {/* <span className={styles.episodeSummary}>{ep.summary}</span> */}
-            <div className={styles.episodeControls}>
+            {ep.media && <div className={styles.episodeControls}>
               <Button icon="play" />
-            </div>
+            </div>}
           </li>
         ))}
 

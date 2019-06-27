@@ -27,7 +27,7 @@ app.post('/api/feed', cors(), (request, response) => {
     res.on('end', () => {
       try {
         const parsed = formatOutput(x2js.xml2js(data));
-        setTimeout(() => response.json(parsed), 2000);
+        response.json(parsed);
       } catch(e) {
         response.status(500).json({ error: 'Error converting feed to json', log: e.message });
       }
@@ -38,7 +38,7 @@ app.post('/api/feed', cors(), (request, response) => {
 });
 
 /**
- * Quick/dirty formatting of some discrepancies
+ * Quick/dirty formatting of some discrepancies from XML
  * This is in no way comprehensive
  */
 function formatOutput(data) {
@@ -46,38 +46,14 @@ function formatOutput(data) {
     raw: data
   };
 
-  output.title = data.rss.channel.title;
-  output.episodes = data.rss.channel.item.map(ep => {
-    const episode = {
-      id: ep.guid,
-      link: ep.link,
-      media: '',
-      pubDate: ep.pubDate,
-      summary: '',
-      title: ep.title,
-    };
-
-    // Find proper ID
-    ['__text', '__cdata'].forEach(attr => {
-      if (ep.guid.hasOwnProperty(attr))
-        episode.id = ep.guid[attr];
-    });
-
-    if (Array.isArray(ep.title)) {
-      episode.title = ep.title.find(t => typeof t === 'string');
-    } else if (ep.title.hasOwnProperty('__text')) {
-      episode.title = ep.title.__text;
-    }
-
-    // @todo
-    // episode.link
-    // episode.media
-    // episode.summary
-
-    return episode;
-  });
-
+  const episodes = Array.isArray(data.rss.channel.item)
+    ? data.rss.channel.item
+    : [data.rss.channel.item];
   const img = data.rss.channel.image;
+  const desc = data.rss.channel.description;
+
+  output.title = data.rss.channel.title;
+  output.episodes = episodes.map(formatEpisode);
 
   output.image = null;
   if (Array.isArray(img)) {
@@ -87,8 +63,6 @@ function formatOutput(data) {
   } else if (img.url) {
     output.image = img.url;
   }
-
-  const desc = data.rss.channel.description;
 
   output.description = '';
   if (Array.isArray(desc)) {
@@ -105,6 +79,35 @@ function formatOutput(data) {
   output.description = sanitizeHtml(output.description, { allowedTags: [] });
 
   return output;
+}
+
+function formatEpisode(ep, i) {
+  const episode = {
+    id: i,
+    link: ep.link,
+    media: ep.enclosure,
+    pubDate: ep.pubDate,
+    summary: '',
+    title: ep.title,
+  };
+
+  // Find title
+  if (Array.isArray(ep.title)) {
+    episode.title = ep.title.find(t => typeof t === 'string');
+  } else if (ep.title.hasOwnProperty('__text')) {
+    episode.title = ep.title.__text;
+  }
+
+  // Find media URL
+  if (ep.encoslure && ep.enclosure.hasOwnProperty('_url')) {
+    episode.media = ep.enclosure._url;
+  }
+
+  // @todo
+  // fix episode.link
+  // add episode.summary
+
+  return episode;
 }
 
 app.listen(8080, () => console.log('Listening on 8080'));

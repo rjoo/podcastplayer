@@ -19,7 +19,7 @@ export default function PodcastContent({ feed }) {
       async function getFeedContent() {
         try {
           setIsLoading(true);
-          const response = await axios.post('http://localhost:8080/api/feed', {
+          const response = await axios.post('/.netlify/functions/feed', {
             feed
           });
 
@@ -42,11 +42,16 @@ export default function PodcastContent({ feed }) {
       {content && content.episodes.slice(0, episodeLimit).map(ep => (
         <li key={ep.id} className={styles.episode}>
           <Tag round={true} minimal={true}>{formatDate(ep.pubDate)}</Tag>
-          <a
-            href={ep.link}
-            className={styles.episodeTitle}
-            target="_blank"
-            rel="noopener noreferrer">{ep.title}</a>
+          {ep.link ?
+            (<a
+              href={ep.link}
+              className={styles.episodeTitle}
+              target="_blank"
+              rel="noopener noreferrer">
+              {ep.title}
+            </a>)
+            : (<strong className={styles.episodeTitle}>{ep.title}</strong>)
+          }
           {/* <span className={styles.episodeSummary}>{ep.summary}</span> */}
           {ep.media && (
             <div className={styles.episodeControls}>

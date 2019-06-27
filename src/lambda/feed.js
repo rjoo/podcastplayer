@@ -66,10 +66,7 @@ function formatOutput(data) {
   output.link = channel.link && channel.link._text;
   // Reversed to start at the bottom so that the index 
   // starts with the oldest then reorder by newest
-  output.episodes = episodes
-    .reverse()
-    .map(formatEpisode)
-    .reverse();
+  output.episodes = episodes.map(formatEpisode);
 
   if (channel['itunes:image'])
     output.image = channel['itunes:image']._attributes.href;

@@ -1,17 +1,23 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { playPodcast } from '../redux';
+import { playPodcast, stopPodcast } from '../redux';
 import { Button } from '@blueprintjs/core';
 
 export default function PodcastEpisodeButton({ episode, podcast }) {
   const dispatch = useDispatch();
   const isPlaying = useSelector(state => state.podcast.episodeId === episode.id);
-  const handlePlayStopPodcast = () => dispatch(playPodcast(
-    isPlaying ? null : episode.id,
-    isPlaying ? '' : podcast.title,
-    isPlaying ? '' : episode.title,
-    isPlaying ? '' : episode.media
-  ));
+  const handlePlayStopPodcast = () => {
+    if (isPlaying)
+      dispatch(stopPodcast());
+    else
+      dispatch(playPodcast(
+        episode.id,
+        episode.title,
+        episode.media,
+        podcast.collectionId,
+        podcast.title
+      ));
+  };
 
   return (
     <Button

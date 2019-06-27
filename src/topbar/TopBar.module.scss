@@ -1,6 +1,33 @@
+@import "~@blueprintjs/core/lib/scss/variables";
+
 .topbar {
+  margin-bottom: 40px;
+  background: $pt-dark-app-background-color;
+  color: $pt-dark-text-color;
+}
+
+.inner {
   display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px 0;
+  align-content: center;
   align-items: center;
   justify-content: space-between;
+
+  > * {
+    flex: 1;
+  }
+}
+
+.left {
+  margin-right: auto;
+}
+
+.right {
+  display: flex;
+
+  > a {
+    margin-left: auto;
+  }
 }

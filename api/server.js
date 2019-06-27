@@ -99,7 +99,7 @@ function formatEpisode(ep, i) {
   }
 
   // Find media URL
-  if (ep.encoslure && ep.enclosure.hasOwnProperty('_url')) {
+  if (ep.enclosure && ep.enclosure.hasOwnProperty('_url')) {
     episode.media = ep.enclosure._url;
   }
 

@@ -8,7 +8,7 @@ node api/server.js
 ```
 
 ### Todo
-* Test more podcasts RSS feeds and convert more needed data from them (episode summaries, media url, etc)
-* Add an audio player
-* Make it pretty (override Blueprint default styling)
+* Make it pretty
+* Recently played list
+* More comprehensive search function
 * Optimize endpoint and make it more secure

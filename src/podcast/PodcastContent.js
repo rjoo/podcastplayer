@@ -9,11 +9,14 @@ const formatDate = (date) => format(date, 'MM.DD.YYYY');
 export default function PodcastContent({ feed }) {
   const [isLoading, setIsLoading] = useState(false);
   const [content, setContent] = useState(null);
+  const [episodeLimit, setEpisodeLimit] = useState(50);
+
+  const handleLimitIncrease = () => setEpisodeLimit(episodeLimit + 50);
 
   function renderPodcastContent() {
     const episodeList = (
       <ul className={styles.list}>
-        {content && content.episodes.map(ep => (
+        {content && content.episodes.slice(0, episodeLimit).map(ep => (
           <li key={ep.id} className={styles.episode}>
             <Tag round={true} minimal={true}>{formatDate(ep.pubDate)}</Tag>
             <a
@@ -26,6 +29,8 @@ export default function PodcastContent({ feed }) {
             </div>
           </li>
         ))}
+
+        {(content && content.episodes.length > episodeLimit) && (<li><Button onClick={handleLimitIncrease}>Show more</Button></li>)}
 
         {isLoading && !content && [0, 1, 2].map(n => (
           <li key={n} className={`bp3-skeleton ${styles.episode}`}>&nbsp;</li>

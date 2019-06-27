@@ -1,7 +1,45 @@
 .section {
-  padding: 20px;
+  padding: 20px 20px 80px;
+  overflow-y: auto;
 }
 
 .heading {
-  
+  display: flex;
+}
+
+.image {
+  margin-right: 20px;
+  min-width: 250px;
+  min-height: 250px;
+
+  img {
+    width: 250px;
+  }
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.episode {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px 0;
+
+  &:last-of-type {
+    border: 0;
+  }
+}
+
+.episodeTitle {
+  margin-left: 5px;
+  font-weight: 700;
+}
+
+.episodeControls {
+  margin-left: auto;
 }

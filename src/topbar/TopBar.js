@@ -1,9 +1,19 @@
 import React from 'react';
 import { Button } from '@blueprintjs/core';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import styles from './TopBar.module.scss';
 
-export default function TopBar() {
+function TopBar({ location }) {
+  const navButton = (
+    location.pathname === "/search"
+      ? (<Link to="/">
+          <Button icon="home" large={true} />
+        </Link>)
+      : (<Link to="/search">
+          <Button icon="search" large={true} />
+        </Link>)
+  );
+
   return (
     <section className={styles.topbar}>
       <div>
@@ -13,10 +23,10 @@ export default function TopBar() {
       </div>
 
       <div>
-        <Link to="/search">
-          <Button icon="search" large={true} />
-        </Link>
+        {navButton}
       </div>
     </section>
   );
 }
+
+export default withRouter(TopBar);

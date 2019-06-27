@@ -5,10 +5,14 @@ import SearchControls from './SearchControls';
 import PodcastList from '../podcast/PodcastList';
 import styles from './Search.module.scss';
 
-const useSample = true;
+const useSample = false;
 
+/**
+ * @todo Add search response error handling
+ */
 export default function Search() {
   const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSearch(q) {
     if (useSample) {
@@ -18,11 +22,18 @@ export default function Search() {
       return;
     }
 
+    setResults([]);
+
     try {
+      setIsLoading(true);
+
       const response = await axios.get(`https://itunes.apple.com/search?term=${q}&entity=podcast`);
       const results = response.data.results;
+
+      setIsLoading(false);
       setResults(results);
     } catch (e) {
+      setIsLoading(false);
       console.error(e);
     }
   }
@@ -33,9 +44,10 @@ export default function Search() {
         <h2>Results ({results.length})</h2>
         <SearchControls onSearch={handleSearch} />
       </header>
-      <NonIdealState
+      {!isLoading &&
+       !results.length && <NonIdealState
         icon="error"
-        title="No results" />
+        title="No results" />}
       <PodcastList results={results} />
     </div>
   );

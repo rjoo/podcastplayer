@@ -5,6 +5,7 @@ const cors = require('cors');
 const app = express();
 const X2JS = require('x2js');
 const sanitizeHtml = require('sanitize-html');
+const stringHash = require('string-hash');
 
 app.use(express.json());
 app.use(cors());
@@ -53,7 +54,12 @@ function formatOutput(data) {
   const desc = data.rss.channel.description;
 
   output.title = data.rss.channel.title;
-  output.episodes = episodes.map(formatEpisode);
+  // Reversed to start at the bottom so that the index 
+  // starts with the oldest then reorder by newest
+  output.episodes = episodes
+    .reverse()
+    .map(formatEpisode)
+    .reverse();
 
   output.image = null;
   if (Array.isArray(img)) {
@@ -83,7 +89,7 @@ function formatOutput(data) {
 
 function formatEpisode(ep, i) {
   const episode = {
-    id: i,
+    id: '',
     link: ep.link,
     media: ep.enclosure,
     pubDate: ep.pubDate,
@@ -102,6 +108,8 @@ function formatEpisode(ep, i) {
   if (ep.enclosure && ep.enclosure.hasOwnProperty('_url')) {
     episode.media = ep.enclosure._url;
   }
+
+  episode.id = stringHash(episode.title + i);
 
   // @todo
   // fix episode.link

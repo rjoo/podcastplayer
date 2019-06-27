@@ -1,14 +1,15 @@
 import { combineReducers, createStore } from 'redux';
 
 const initialState = {
-  podcastTitle: '',
+  episodeId: '',
   episodeTitle: '',
-  mediaUrl: ''
+  mediaUrl: '',
+  podcastTitle: '',
 };
 
-export const playPodcast = (podcastTitle, episodeTitle, mediaUrl) => ({
+export const playPodcast = (episodeId, podcastTitle, episodeTitle, mediaUrl) => ({
   type: 'PLAY_PODCAST',
-  podcast: { podcastTitle, episodeTitle, mediaUrl }
+  podcast: { episodeId, podcastTitle, episodeTitle, mediaUrl }
 });
 
 export const podcast = (state = initialState, action) => {

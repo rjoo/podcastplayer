@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { Button, Tag } from '@blueprintjs/core';
+import { useDispatch } from 'react-redux';
+import { playPodcast } from '../redux';
 import styles from './PodcastContent.module.scss';
 
 const formatDate = (date) => format(date, 'MM.DD.YYYY');
@@ -10,8 +12,14 @@ export default function PodcastContent({ feed }) {
   const [isLoading, setIsLoading] = useState(false);
   const [content, setContent] = useState(null);
   const [episodeLimit, setEpisodeLimit] = useState(50);
+  const dispatch = useDispatch();
 
   const handleLimitIncrease = () => setEpisodeLimit(episodeLimit + 50);
+  const handlePlayPodcast = (episode) => dispatch(playPodcast(
+    content.title,
+    episode.title,
+    episode.media
+  ));
 
   useEffect(() => {
     if (feed) {
@@ -49,7 +57,7 @@ export default function PodcastContent({ feed }) {
           {/* <span className={styles.episodeSummary}>{ep.summary}</span> */}
           {ep.media && (
             <div className={styles.episodeControls}>
-              <Button icon="play" />
+              <Button icon="play" onClick={handlePlayPodcast.bind(null, ep)} />
             </div>
           )}
         </li>
@@ -69,7 +77,6 @@ export default function PodcastContent({ feed }) {
     <section className={styles.section}>
       <div className={styles.heading}>
         <div className={isLoading ? `bp3-skeleton ${styles.image}` : styles.image}>
-          });
           {content && <img src={content.image} alt={content.title} />}
         </div>
 

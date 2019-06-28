@@ -29,7 +29,7 @@ export default function Search() {
     try {
       setIsLoading(true);
 
-      const response = await axios.get(`https://itunes.apple.com/search?term=${q}&entity=podcast`);
+      const response = await axios.get(`/.netlify/functions/search?query=${q}`);
       const results = response.data.results;
 
       setIsLoading(false);

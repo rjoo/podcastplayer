@@ -3,11 +3,13 @@ A basic podcast player that allows you to search for podcasts and play episodes.
 [Demo](https://admiring-pasteur-5d6231.netlify.com/#/)
 
 ## Data
-To search for podcasts, it uses the simple ITunes Search API on the client side. To extract more information from each podcast and a list of episodes, there's a serverless Lambda function that grabs the RSS feed XML and converts it to JSON.
+There are two endpoints that are made from Lambda functions in `src/lambda`.
+* `/search` - A simple search with the ITunes Search API
+* `/feed` - Grabs the RSS feed's XML and converts/formats it to JSON
 
 ## TODO
-* Responsive
+* Responsive layout
 * Make it pretty
 * Recently played list
 * More comprehensive search function
-* Optimize endpoint and make it more secure
+* Optimize /feed endpoint

@@ -95,7 +95,7 @@ export default function PodcastContent({ feed }) {
           title="Woops"
         >
           {errorMsg}
-          <a href={makeGitHubIssueUrl()} target="_blank" rel="nofollow noopener">Submit an issue</a>.
+          <a href={makeGitHubIssueUrl()} target="_blank" rel="noreferrer noopener">Submit an issue</a>.
         </NonIdealState>
       ) : (
         <React.Fragment>

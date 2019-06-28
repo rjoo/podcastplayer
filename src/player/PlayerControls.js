@@ -62,10 +62,9 @@ function PlayerControls({ media }) {
         )}
         className={styles.volume}
         disabled={isDisabled}
-        modifiers={{
-        }}
+        minimal={true}
         popoverClassName={Classes.POPOVER_CONTENT_SIZING}
-        position="auto"
+        position="auto-start"
         usePortal={false}
       >
         <button

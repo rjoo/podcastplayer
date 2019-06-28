@@ -16,6 +16,8 @@ export default function PodcastContent({ feed }) {
   const handleLimitIncrease = () => setEpisodeLimit(episodeLimit + 50);
 
   useEffect(() => {
+    let isSubscribed = true;
+
     if (feed) {
       setErrorMsg('');
       setContent(null);
@@ -26,6 +28,9 @@ export default function PodcastContent({ feed }) {
           const response = await axios.post('/.netlify/functions/feed', {
             feed
           });
+
+          if (!isSubscribed)
+            return;
 
           setIsLoading(false);
 
@@ -44,6 +49,8 @@ export default function PodcastContent({ feed }) {
     } else {
       setContent(null);
     }
+
+    return () => isSubscribed = false;
   }, [feed]);
 
   const makeGitHubIssueUrl = () => {

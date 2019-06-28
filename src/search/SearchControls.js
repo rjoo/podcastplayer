@@ -17,7 +17,7 @@ export default function SearchControls({ onSearch }) {
   return (
     <div className="search-controls">
       <FormGroup
-        label="Search podcast"
+        label="Search podcasts"
         labelFor="search-input"
       >
         <InputGroup

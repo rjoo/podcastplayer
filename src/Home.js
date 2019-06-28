@@ -5,7 +5,7 @@ import { results as topPodcastsList } from './data/top-podcasts.json';
 export default function Home() {
   return (
     <div>
-      <h2>Top Podcasts</h2>
+      <h1>Top Podcasts</h1>
 
       <PodcastList results={topPodcastsList} />
     </div>

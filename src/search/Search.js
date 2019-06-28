@@ -48,7 +48,7 @@ export default function Search() {
   return (
     <div>
       <header className={styles.header}>
-        <h2>Results ({results.length})</h2>
+        <h1>Results ({results.length})</h1>
         <SearchControls onSearch={handleSearch} />
       </header>
       {isLoading && <Spinner />}

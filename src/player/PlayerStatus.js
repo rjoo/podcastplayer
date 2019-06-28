@@ -22,13 +22,17 @@ function PlayerStatus({ media }) {
       {renderPlayer()}
 
       <h5 className={styles.title}>
-        {episodeTitle} <em>from</em> {podcastTitle}
+        {mediaUrl && (
+          <span>{episodeTitle} <em>from</em> {podcastTitle}</span>
+        )}
       </h5>
-      <div className={styles.controls}>
-        <CurrentTime className={styles.time} />
-        <SeekBar className={styles.seekbar} />
-        <Duration className={styles.duration} />
-      </div>
+      {mediaUrl && (
+        <div className={styles.controls}>
+          <CurrentTime className={styles.time} />
+          <SeekBar className={styles.seekbar} />
+          <Duration className={styles.duration} />
+        </div>
+      )}
     </div>
   );
 }

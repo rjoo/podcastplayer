@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Button, Popover, Slider } from '@blueprintjs/core';
+import { Classes, Icon, Popover, Slider } from '@blueprintjs/core';
 import { withMediaProps } from 'react-media-player';
 import styles from './PlayerControls.module.scss';
 
@@ -23,21 +23,31 @@ function PlayerControls({ media }) {
   }, [media, volume]);
 
   return (
-    <div>
-      <Button
+    <div className={styles.buttonGroup}>
+      <button
+        className={styles.button}
         disabled={isDisabled}
-        icon="fast-backward"
-        onClick={handleSkipBackward} />
-      <Button
+        onClick={handleSkipBackward}
+      >
+        <Icon icon="fast-backward" />
+      </button>
+
+      <button
+        className={[styles.button, styles.buttonPlay].join(' ')}
         disabled={isDisabled}
-        icon={media.isPlaying ? 'pause' : 'play'}
         intent="primary"
-        large={true}
-        onClick={handlePlayPause} />
-      <Button
+        onClick={handlePlayPause}
+      >
+        <Icon icon={media.isPlaying ? 'pause' : 'play'} />
+      </button>
+      <button
+        className={styles.button}
         disabled={isDisabled}
-        icon="fast-forward"
-        onClick={handleSkipForward} />
+        onClick={handleSkipForward}
+      >
+        <Icon icon="fast-forward" />
+      </button>
+
 
       <Popover
         content={(
@@ -54,11 +64,16 @@ function PlayerControls({ media }) {
         disabled={isDisabled}
         modifiers={{
         }}
-        popoverClassName="bp3-popover-content-sizing"
+        popoverClassName={Classes.POPOVER_CONTENT_SIZING}
         position="auto"
         usePortal={false}
       >
-        <Button disabled={isDisabled} icon={volume === 0 ? 'volume-off' : 'volume-up' } />
+        <button
+          className={[styles.button, styles.buttonVolume, (volume === 0 ? styles.muted : '')].join(' ')}
+          disabled={isDisabled}
+        >
+          <Icon icon={volume === 0 ? 'volume-off' : 'volume-up' } />
+        </button>
       </Popover>
     </div>
   );

@@ -1,21 +1,12 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { Button } from '@blueprintjs/core';
+import { Icon } from '@blueprintjs/core';
 import { Media } from 'react-media-player';
 import PlayerControls from '../player/PlayerControls';
 import PlayerStatus from '../player/PlayerStatus';
 import styles from './TopBar.module.scss';
 
 function TopBar({ location }) {
-  const { mediaUrl } = useSelector(state => state.podcast);
-
-  const renderPlayerStatus = () => {
-    if (mediaUrl) {
-      return <PlayerStatus />;
-    }
-  };
-
   return (
     <Media>
       <section className={styles.topbar}>
@@ -24,15 +15,23 @@ function TopBar({ location }) {
             <PlayerControls />
           </div>
   
-          {renderPlayerStatus()}
+          <PlayerStatus />
 
           <nav className={styles.right}>
             {location.pathname === "/search"
               ? (<Link to="/">
-                  <Button icon="home" large={true} />
+                  <Icon
+                    icon="home"
+                    iconSize={32}
+                    tagName="div"
+                    title="Home" />
                 </Link>)
               : (<Link to="/search">
-                  <Button icon="search" large={true} />
+                  <Icon
+                    icon="search"
+                    iconSize={32}
+                    tagName="div"
+                    title="Home" />
                 </Link>)
             }
           </nav>

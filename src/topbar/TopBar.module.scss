@@ -1,9 +1,9 @@
-@import "~@blueprintjs/core/lib/scss/variables";
+@import "../variables";
 
 .topbar {
   margin-bottom: 40px;
-  background: $pt-dark-app-background-color;
-  color: $pt-dark-text-color;
+  background: linear-gradient(to bottom, $dark-gray1, $dark-gray3);
+  color: $light-gray1;
 }
 
 .inner {
@@ -28,6 +28,11 @@
   display: flex;
 
   > a {
+    color: $light-gray1;
     margin-left: auto;
+
+    &:hover {
+      color: $light-gray5;
+    }
   }
 }

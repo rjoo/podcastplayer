@@ -1,11 +1,13 @@
 .title {
-  font-size: 12px;
+  font-size: 13px;
   margin: 0 0 10px 0;
   text-align: center;
 
   em {
+    display: inline-block;
+    margin: 0 2px;
     font-weight: 300;
-    font-style: italic;
+    font-style: normal;
   }
 }
 
@@ -16,7 +18,7 @@
 
 .time,
 .duration {
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .seekbar {

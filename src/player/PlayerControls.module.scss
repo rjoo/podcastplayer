@@ -1,3 +1,49 @@
+@import '../variables';
+
+.buttonGroup {
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin-right: 10px;
+  color: $light-gray1;
+  cursor: pointer;
+  transition: opacity 0.2s ease-out;
+
+  &:hover {
+    color: $light-gray5;
+  }
+
+  &:disabled,
+  &.muted {
+    opacity: 0.4;
+  }
+
+  // icon
+  span svg {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.buttonVolume {
+  span svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.buttonPlay {
+  span svg {
+    width: 50px;
+    height: 50px;
+  }
+}
+
 .volume {
   margin-left: 20px;
 }

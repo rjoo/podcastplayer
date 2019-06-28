@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { format } from 'date-fns';
-import { Button, Tag } from '@blueprintjs/core';
+import { Button, NonIdealState, Tag } from '@blueprintjs/core';
 import styles from './PodcastContent.module.scss';
 import PodcastEpisodeButton from './PodcastEpisodeButton';
 
 const formatDate = (date) => format(date, 'MM.DD.YYYY');
 
 export default function PodcastContent({ feed }) {
+  const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [content, setContent] = useState(null);
   const [episodeLimit, setEpisodeLimit] = useState(50);
@@ -16,6 +17,9 @@ export default function PodcastContent({ feed }) {
 
   useEffect(() => {
     if (feed) {
+      setErrorMsg('');
+      setContent(null);
+
       async function getFeedContent() {
         try {
           setIsLoading(true);
@@ -24,10 +28,15 @@ export default function PodcastContent({ feed }) {
           });
 
           setIsLoading(false);
-          setContent(response.data);
+
+          if (response.data && response.data.title)
+            setContent(response.data);
+          else
+            setErrorMsg('We don\'t yet understand how to parse this feed yet.');
         } catch (e) {
           setIsLoading(false);
           console.error(e);
+          setErrorMsg('There was an issue getting details from this podcast\'s feed.');
         }
       }
 
@@ -36,6 +45,13 @@ export default function PodcastContent({ feed }) {
       setContent(null);
     }
   }, [feed]);
+
+  const makeGitHubIssueUrl = () => {
+    return 'https://github.com/rjoo/podcastplayer/issues/new'
+      + '?title=Feed issue'
+      + `&body=There was a problem parsing the feed at ${feed}`
+      + '&label=bug';
+  };
 
   const episodeList = (
     <ul className={styles.list}>
@@ -73,32 +89,44 @@ export default function PodcastContent({ feed }) {
 
   return (
     <section className={styles.section}>
-      <div className={styles.heading}>
-        <div className={isLoading ? `bp3-skeleton ${styles.image}` : styles.image}>
-          {content && <img src={content.image} alt={content.title} />}
-        </div>
+      {errorMsg ? (
+        <NonIdealState
+          icon="error"
+          title="Woops"
+        >
+          {errorMsg}
+          <a href={makeGitHubIssueUrl()} target="_blank" rel="nofollow noopener">Submit an issue</a>.
+        </NonIdealState>
+      ) : (
+        <React.Fragment>
+          <div className={styles.heading}>
+            <div className={isLoading ? `bp3-skeleton ${styles.image}` : styles.image}>
+              {content && <img src={content.image} alt={content.title} />}
+            </div>
 
-        <div className={styles.description}>
-          <h2>
-            <span className={isLoading ? 'bp3-skeleton' : undefined}>
-              {content
-                ? content.title
-                : 'Lorem ipsum'}
-            </span>
-          </h2>
+            <div className={styles.description}>
+              <h2>
+                <span className={isLoading ? 'bp3-skeleton' : undefined}>
+                  {content
+                    ? content.title
+                    : 'Lorem ipsum'}
+                </span>
+              </h2>
 
-          <p className={isLoading ? 'bp3-skeleton' : undefined}>
-            {content
-              ? content.description
-              : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget tortor felis. Fusce dapibus metus in dapibus mollis. Quisque eget ex diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget tortor felis. Fusce dapibus metus in dapibus mollis. Quisque eget ex diam.'}
-          </p>
-        </div>
-      </div>
+              <p className={isLoading ? 'bp3-skeleton' : undefined}>
+                {content
+                  ? content.description
+                  : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget tortor felis. Fusce dapibus metus in dapibus mollis. Quisque eget ex diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget tortor felis. Fusce dapibus metus in dapibus mollis. Quisque eget ex diam.'}
+              </p>
+            </div>
+          </div>
 
-      <h3>Episodes</h3>
-      <div>
-        {episodeList}
-      </div>
+          <h3>Episodes</h3>
+          <div>
+            {episodeList}
+          </div>
+        </React.Fragment>
+      )}
     </section>
   );
 }

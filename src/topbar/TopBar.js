@@ -19,14 +19,14 @@ function TopBar({ location }) {
 
           <nav className={styles.right}>
             {location.pathname === "/search"
-              ? (<Link to="/">
+              ? (<Link className={styles.navLink}to="/">
                   <Icon
                     icon="home"
                     iconSize={32}
                     tagName="div"
                     title="Home" />
                 </Link>)
-              : (<Link to="/search">
+              : (<Link className={styles.navLink}to="/search">
                   <Icon
                     icon="search"
                     iconSize={32}

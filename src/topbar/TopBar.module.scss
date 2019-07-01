@@ -12,8 +12,13 @@
   margin: 0 auto;
   padding: 20px 0;
   align-content: center;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
+  flex-wrap: wrap;
+
+  @media screen and (min-width: 768px) {
+    flex-wrap: nowrap;
+  }
 
   > * {
     flex: 1;
@@ -26,13 +31,13 @@
 
 .right {
   display: flex;
+}
 
-  > a {
-    color: $light-gray1;
-    margin-left: auto;
+.navLink {
+  color: $light-gray1;
+  margin: 0 0 10px auto;
 
-    &:hover {
-      color: $light-gray5;
-    }
+  &:hover {
+    color: $light-gray5;
   }
 }

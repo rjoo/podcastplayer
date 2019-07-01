@@ -59,13 +59,10 @@ function formatOutput(data) {
   const episodes = Array.isArray(channel.item)
     ? channel.item
     : [channel.item];
-  const img = channel['itunes:image']._attributes.href;
   const desc = channel.description;
 
   output.title = channel.title._text;
   output.link = channel.link && channel.link._text;
-  // Reversed to start at the bottom so that the index 
-  // starts with the oldest then reorder by newest
   output.episodes = episodes.map(formatEpisode);
 
   if (channel['itunes:image'])

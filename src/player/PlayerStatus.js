@@ -11,9 +11,9 @@ function PlayerStatus({ media }) {
   const renderPlayer = () => {
     if (mediaUrl) {
       return <Player
+        className={styles.player}
         autoPlay={true}
-        src={mediaUrl}
-        useAudioObject={true} />;
+        src={mediaUrl} />
     }
   };
 
